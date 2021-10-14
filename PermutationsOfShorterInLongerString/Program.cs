@@ -22,11 +22,11 @@ namespace PermutationsOfShorterInLongerString
      */
     class Solution
     {
-        public List<(int,int)> Solve(string s, string b)
+        public List<(int, int)> Solve(string s, string b)
         {
             Dictionary<char, int> refHash = new();
             Dictionary<char, int> dynHash = new();
-            List<(int,int)> results = new();
+            List<(int, int)> results = new();
 
             int i = 0, j;
 
@@ -36,7 +36,7 @@ namespace PermutationsOfShorterInLongerString
                 if (!refHash.ContainsKey(c))
                 {
                     refHash.Add(c, 1);
-                    dynHash.Add(c,0);
+                    dynHash.Add(c, 0);
                 }
                 else
                 {
@@ -47,11 +47,7 @@ namespace PermutationsOfShorterInLongerString
             //Give j a head start to index s.Length
             for (j = 0; j < s.Length; j++)
             {
-                if (!dynHash.ContainsKey(b[j]))
-                {
-                    dynHash.Add(b[j], 1);
-                }
-                else
+                if (dynHash.ContainsKey(b[j]))
                 {
                     dynHash[b[j]]++;
                 }
@@ -63,37 +59,29 @@ namespace PermutationsOfShorterInLongerString
             {
                 if (AreSimilar(refHash, dynHash))
                 {
-                    results.Add((i,j));
+                    results.Add((i, j));
                 }
 
-                dynHash[b[i]]--;
+                if (dynHash.ContainsKey(b[i])) dynHash[b[i]]--;
+                
                 j++;
                 i++;
-                
-                if(j>=b.Length) break;
-                
-                if (!dynHash.ContainsKey(b[j]))
-                {
-                    dynHash.Add(b[j], 1);
-                }
-                else
-                {
-                    dynHash[b[j]]++;
-                }
-                
+
+                if (j >= b.Length) break;
+
+                if (dynHash.ContainsKey(b[j])) dynHash[b[j]]++;
             }
 
             return results;
-
         }
 
-        public bool AreSimilar(Dictionary<char,int> refHash, Dictionary<char,int> dynHash)
+        public bool AreSimilar(Dictionary<char, int> refHash, Dictionary<char, int> dynHash)
         {
             foreach (var (key, _) in dynHash)
             {
-                if (!refHash.ContainsKey(key) || dynHash[key] != refHash[key]) return false;
+                if (dynHash[key] != refHash[key]) return false;
             }
-            
+
             return true;
         }
     }
@@ -106,7 +94,7 @@ namespace PermutationsOfShorterInLongerString
             const string b = "cbabadcbbabbcbabaabccbabc";
             Solution solution = new();
 
-            var results= solution.Solve(s, b);
+            var results = solution.Solve(s, b);
 
             foreach (var result in results)
             {
