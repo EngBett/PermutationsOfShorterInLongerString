@@ -36,6 +36,7 @@ namespace PermutationsOfShorterInLongerString
                 if (!refHash.ContainsKey(c))
                 {
                     refHash.Add(c, 1);
+                    dynHash.Add(c,0);
                 }
                 else
                 {
@@ -69,6 +70,8 @@ namespace PermutationsOfShorterInLongerString
                 j++;
                 i++;
                 
+                if(j>=b.Length) break;
+                
                 if (!dynHash.ContainsKey(b[j]))
                 {
                     dynHash.Add(b[j], 1);
@@ -99,8 +102,8 @@ namespace PermutationsOfShorterInLongerString
     {
         static void Main(string[] args)
         {
-            var s = "abbc";
-            var b = "cbabadcbbabbcbabaabccbabc";
+            const string s = "abbc";
+            const string b = "cbabadcbbabbcbabaabccbabc";
             Solution solution = new();
 
             var results= solution.Solve(s, b);
