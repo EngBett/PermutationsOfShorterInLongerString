@@ -43,7 +43,7 @@ namespace PermutationsOfShorterInLongerString
                 }
             }
 
-            //Give j a headstart to index s.Length-1
+            //Give j a head start to index s.Length
             for (j = 0; j < s.Length; j++)
             {
                 if (!dynHash.ContainsKey(b[j]))
