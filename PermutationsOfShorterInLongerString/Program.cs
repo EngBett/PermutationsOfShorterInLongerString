@@ -22,7 +22,10 @@ namespace PermutationsOfShorterInLongerString
      */
     class Solution
     {
-        public List<(int, int)> Solve(string s, string b)
+        /**
+         * 
+         */
+         public List<(int, int)> Solve(string s, string b)
         {
             Dictionary<char, int> refHash = new();
             Dictionary<char, int> dynHash = new();
@@ -31,7 +34,7 @@ namespace PermutationsOfShorterInLongerString
             int i = 0, j;
 
             //fill refHash
-            foreach (var c in s)
+            foreach (var c in s)//O(s)
             {
                 if (!refHash.ContainsKey(c))
                 {
@@ -47,7 +50,7 @@ namespace PermutationsOfShorterInLongerString
             //Give j a head start to index s.Length
             for (j = 0; j < s.Length; j++)
             {
-                if (dynHash.ContainsKey(b[j]))
+                if (dynHash.ContainsKey(b[j])) // O(s)
                 {
                     dynHash[b[j]]++;
                 }
@@ -55,9 +58,9 @@ namespace PermutationsOfShorterInLongerString
 
             j--;
 
-            while (j < b.Length)
+            while (j < b.Length) // O(b-s)
             {
-                if (AreSimilar(refHash, dynHash))
+                if (AreSimilar(refHash, dynHash)) // O(s)
                 {
                     results.Add((i, j));
                 }
@@ -73,8 +76,20 @@ namespace PermutationsOfShorterInLongerString
             }
 
             return results;
+            
+            
+            /*
+             *  Assuming checking if hashTables contains elements is constant time O(1)
+             *  Our time complexity will be O(s + (b-s) * s)
+             *  = O(s+(b-s^2))
+             * 
+             */
         }
 
+        
+        /**
+         * O(s)
+         */
         public bool AreSimilar(Dictionary<char, int> refHash, Dictionary<char, int> dynHash)
         {
             foreach (var (key, _) in dynHash)
