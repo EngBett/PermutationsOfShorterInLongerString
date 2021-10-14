@@ -88,7 +88,7 @@ namespace PermutationsOfShorterInLongerString
         {
             foreach (var (key, _) in dynHash)
             {
-                if (dynHash[key] != refHash[key]) return false;
+                if (!refHash.ContainsKey(key) || dynHash[key] != refHash[key]) return false;
             }
             
             return true;
